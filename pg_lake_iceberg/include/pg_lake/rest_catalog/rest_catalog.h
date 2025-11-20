@@ -34,10 +34,10 @@ extern char *RestCatalogClientSecret;
 #define GET_REST_CATALOG_METADATA_LOCATION "%s/api/catalog/v1/%s/namespaces/%s/tables/%s"
 
 extern PGDLLEXPORT char *RestCatalogFetchAccessToken(void);
-extern PGDLLEXPORT void RegisterNamespaceToRestCatalog(const char *catalogName, const char *namespaceName,
-													   bool hasRestCatalogReadOnlyOption);
+extern PGDLLEXPORT void RegisterNamespaceToRestCatalog(const char *catalogName, const char *namespaceName);
 extern PGDLLEXPORT void ErrorIfRestNamespaceDoesNotExist(const char *catalogName, const char *namespaceName);
 extern PGDLLEXPORT IcebergCatalogType GetIcebergCatalogType(Oid relationId);
+extern PGDLLEXPORT char *GetRestCatalogName(Oid relationId);
 extern PGDLLEXPORT char *GetRestCatalogNamespace(Oid relationId);
 extern PGDLLEXPORT char *GetRestCatalogTableName(Oid relationId);
 extern PGDLLEXPORT bool HasRestCatalogTableOption(List *options);
