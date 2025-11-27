@@ -24,6 +24,8 @@
 #include "pg_lake/iceberg/api/snapshot.h"
 
 extern PGDLLEXPORT char *RestCatalogHost;
+extern char *RestCatalogOauthHost;
+extern char *RestCatalogOauthPath;
 extern char *RestCatalogClientId;
 extern char *RestCatalogClientSecret;
 
