@@ -46,8 +46,7 @@
 
 /* determined by GUC */
 char	   *RestCatalogHost = "http://localhost:8181";
-char       *RestCatalogOauthHost = "http://localhost:8181";
-char       *RestCatalogOauthPath = "%s/api/catalog/v1/oauth/tokens";
+char       *RestCatalogOauthHostPath = "http://localhost:8181/api/catalog/v1/oauth/tokens";
 char	   *RestCatalogClientId = NULL;
 char	   *RestCatalogClientSecret = NULL;
 
@@ -565,8 +564,6 @@ FetchRestCatalogAccessToken(char **accessToken, int *expiresIn)
 	if (!RestCatalogClientSecret || !*RestCatalogClientSecret)
 		ereport(ERROR, (errmsg("pg_lake_iceberg.rest_catalog_client_secret should be set")));
 
-	char	   *accessTokenUrl = psprintf(RestCatalogOauthPath, RestCatalogOauthHost);
-
 	/* Build Authorization: Basic <base64(clientId:clientSecret)> */
 	char	   *encodedAuth = EncodeBasicAuth(RestCatalogClientId, RestCatalogClientSecret);
 	char	   *authHeader = psprintf("Authorization: Basic %s", encodedAuth);
@@ -581,7 +578,7 @@ FetchRestCatalogAccessToken(char **accessToken, int *expiresIn)
 	headers = lappend(headers, "Content-Type: application/x-www-form-urlencoded");
 
 	/* POST */
-	HttpResult	httpResponse = HttpPost(accessTokenUrl, body, headers);
+	HttpResult	httpResponse = HttpPost(RestCatalogOauthHostPath, body, headers);
 
 	if (httpResponse.status != 200)
 		ereport(ERROR,
